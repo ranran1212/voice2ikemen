@@ -1,0 +1,8 @@
+streamlit
+librosa
+numpy
+pandas
+SpeechRecognition
+pydub
+pykakasi
+openai
