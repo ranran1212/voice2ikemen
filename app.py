@@ -10,9 +10,6 @@ from pydub import AudioSegment
 from pydub.silence import detect_nonsilent
 from traits_and_prompts import Extraversion, Openness, Conscientiousness, Agreeableness, E_category, O_category, C_category, A_category, instruction_1, example_1, instruction_2
 
-# OpenAI APIキーの設定
-#openai.api_key = st.secrets["OPENAI_API_KEY"]
-
 # 基準値の設定
 pitch_threshold = [154, 175, 214]  # ピッチの閾値
 voice_speed_threshold = [5.7, 6.6, 7.1]  # 発話速度の閾値
