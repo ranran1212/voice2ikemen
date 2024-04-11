@@ -10,7 +10,6 @@ from pydub import AudioSegment
 from pydub.silence import detect_nonsilent
 from traits_and_prompts import Extraversion, Openness, Conscientiousness, Agreeableness, E_category, O_category, C_category, A_category, instruction_1, example_1, instruction_2
 
-
 # OpenAI APIキーの設定
 openai.api_key = st.secrets["OPENAI_API_KEY"]
 
