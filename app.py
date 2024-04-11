@@ -1,8 +1,4 @@
 import streamlit as st
-import streamlit_authenticator as stauth
-from librosa.core import audio
-import yaml
-from yaml.loader import SafeLoader
 import librosa
 import numpy as np
 import speech_recognition as sr
@@ -10,8 +6,6 @@ import pykakasi
 import tempfile
 import openai
 import requests
-from PIL import Image
-from io import BytesIO
 from pydub import AudioSegment
 from pydub.silence import detect_nonsilent
 from traits_and_prompts import Extraversion, Openness, Conscientiousness, Agreeableness, E_category, O_category, C_category, A_category, instruction_1, example_1, instruction_2
