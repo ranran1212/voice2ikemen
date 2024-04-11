@@ -11,7 +11,7 @@ from pydub.silence import detect_nonsilent
 from traits_and_prompts import Extraversion, Openness, Conscientiousness, Agreeableness, E_category, O_category, C_category, A_category, instruction_1, example_1, instruction_2
 
 # OpenAI APIキーの設定
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+#openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # 基準値の設定
 pitch_threshold = [154, 175, 214]  # ピッチの閾値
@@ -328,8 +328,7 @@ def get_image_data(image_url, key, file_name):
     )
 
 def main():
-    st.title("DIALS2 - キャストイラスト生成")
-    uploaded_file = st.file_uploader("👇音声ファイルをアップロードしてください", type=["mp3"])
+    uploaded_file = st.file_uploader("音声ファイルをアップロードしてください", type=["mp3"])
     
     if uploaded_file is not None:
         with tempfile.NamedTemporaryFile(delete=False, suffix=uploaded_file.name[-4:]) as temp_file:
@@ -368,8 +367,17 @@ def main():
             pipe_generate(second_prompt, "smiling", file_name)
 
 if __name__ == "__main__":
-    password = st.text_input("パスワード", type="password")
+    st.title("💛DIALS2 - キャストイラスト生成💛")
+    
+    
+    password = st.sidebar.text_input("PASSWORD", type="password")
     if password == st.secrets["password"]:
-        main() 
+        # パスワードが正しい場合、OpenAI APIキーを入力させる
+        api_key = st.sidebar.text_input("API KEY", type="password")
+        if api_key:
+            openai.api_key = api_key
+            main()
+        else:
+            st.sidebar.error("APIキーを入力してください🙇‍♀️")
     else:
-        st.error("パスワードを入力してください")
+        st.sidebar.error("パスワードを入力してください🙇‍♀️")
