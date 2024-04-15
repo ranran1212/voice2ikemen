@@ -347,8 +347,8 @@ def main():
         features = compute_features(temp_file_path)
             
         # 特徴から性格特性を推定
-        pitch_category, contrast_category, pitch, contrast, pitch_height, image_color_lineage = categorize_audio_by_average(temp_file_path)
         characters_per_second, speaking_rate = speaking_rate_by_audio(temp_file_path)
+        pitch_category, contrast_category, pitch, contrast, pitch_height, image_color_lineage = categorize_audio_by_average(temp_file_path)
         
         # 性格特性から初期プロンプトを生成
         first_prompt = generate_first_prompt(pitch_category, contrast_category, speaking_rate, pitch_height, image_color_lineage)
