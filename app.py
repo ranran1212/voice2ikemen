@@ -105,17 +105,17 @@ def speaking_rate_by_audio(audio_path):
     """
     # ファイルの存在とアクセス権限をチェック
     if not os.path.exists(audio_path):
-        print(f"ファイルが存在しません: {audio_path}")
+        st.markdown(f"ファイルが存在しません: {audio_path}")
         return
     if not os.access(audio_path, os.R_OK):
-        print(f"ファイルにアクセスできません: {audio_path}")
+        st.markdown(f"ファイルにアクセスできません: {audio_path}")
         return
 
     try:
         # 音声ファイルを読み込む
         sound = AudioSegment.from_file(audio_path)
     except Exception as e:
-        print(f"ファイルの読み込みに失敗しました: {e}")
+        st.markdown(f"ファイルの読み込みに失敗しました: {e}")
         return
 
     nonsilent_ranges = []

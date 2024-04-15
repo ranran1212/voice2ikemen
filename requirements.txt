@@ -2,7 +2,9 @@ librosa==0.10.1
 numpy==1.26.4
 openai==0.28.0
 pydub==0.25.1
-pykakasi==2.2.1
+pykakasi==1.16.0
 Requests==2.31.0
 SpeechRecognition==3.10.3
 streamlit==1.31.1
+setuptools==69.5.1
+
