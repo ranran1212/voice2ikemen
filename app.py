@@ -332,8 +332,9 @@ def main():
     if file:
         st.markdown(f'{file.name} をアップロードしました.')
         voice_path = os.path.join(FILE_PATH, file.name)
-        with open(FILE_PATH, 'wb') as f:
-            f.write(voice_path.read())
+        with open(voice_path, 'rb') as file:
+            file_content = file.read()
+            file.write(file_content)
             file_name = file.name
             
             # 音声ファイルから特徴を計算
