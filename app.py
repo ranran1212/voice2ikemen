@@ -8,6 +8,7 @@ import openai
 import requests
 from pydub import AudioSegment
 import os
+import shutil
 from pydub.silence import detect_nonsilent
 from traits_and_prompts import Extraversion, Openness, Conscientiousness, Agreeableness, E_category, O_category, C_category, A_category, instruction_1, example_1, instruction_2
 
@@ -331,41 +332,48 @@ def main():
     file = st.file_uploader("音声ファイルをアップロードしてください", type=["mp3"])
     if file:
         st.markdown(f'{file.name} をアップロードしました.')
-        voice_path = os.path.join(FILE_PATH, file.name)
-        with open(voice_path, 'rb') as file:
-            file_content = file.read()
-            file.write(file_content)
-            file_name = file.name
+        
+        # 一時ファイルに保存
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp3") as temp_file:
+            shutil.copyfileobj(file, temp_file)
+            temp_file_path = temp_file.name
+
+        # ファイル名を保存
+        file_name = file.name
+
+        # 一時ファイルから内容を読み取る (必要な処理を行う)
+        with open(temp_file_path, 'rb') as f:
+            file_content = f.read()
+        
+        # 音声ファイルから特徴を計算
+        features = compute_features(temp_file_path)
             
-            # 音声ファイルから特徴を計算
-            features = compute_features(voice_path)
-            
-            # 特徴から性格特性を推定
-            pitch_category, contrast_category, pitch, contrast, pitch_height, image_color_lineage = categorize_audio_by_average(voice_path)
-            characters_per_second, speaking_rate = speaking_rate_by_audio(voice_path)
-            
-            # 性格特性から初期プロンプトを生成
-            first_prompt = generate_first_prompt(pitch_category, contrast_category, speaking_rate, pitch_height, image_color_lineage)
-            
-            # 初期プロンプトから詳細なプロンプトを生成
-            second_prompt = generate_second_prompt(first_prompt)
-            
-            # 詳細プロンプトから画像を生成
-            image_url = generate_image(second_prompt)
-            
-            # 生成された画像を表示
-            st.image(image_url, caption="nomal Image")
-            
-            # 画像の取得、表示、およびダウンロード
-            key = "nomal_image"
-            get_image_data(image_url, key, file_name)
-            
-            # 画像生成と保存のパイプライン
-            pipe_generate(second_prompt, "serious", file_name)
-            pipe_generate(second_prompt, "grinning", file_name)
-            pipe_generate(second_prompt, "winking", file_name)
-            pipe_generate(second_prompt, "laughing", file_name)
-            pipe_generate(second_prompt, "smiling", file_name)
+        # 特徴から性格特性を推定
+        pitch_category, contrast_category, pitch, contrast, pitch_height, image_color_lineage = categorize_audio_by_average(temp_file_path)
+        characters_per_second, speaking_rate = speaking_rate_by_audio(temp_file_path)
+        
+        # 性格特性から初期プロンプトを生成
+        first_prompt = generate_first_prompt(pitch_category, contrast_category, speaking_rate, pitch_height, image_color_lineage)
+        
+        # 初期プロンプトから詳細なプロンプトを生成
+        second_prompt = generate_second_prompt(first_prompt)
+        
+        # 詳細プロンプトから画像を生成
+        image_url = generate_image(second_prompt)
+        
+        # 生成された画像を表示
+        st.image(image_url, caption="nomal Image")
+        
+        # 画像の取得、表示、およびダウンロード
+        key = "nomal_image"
+        get_image_data(image_url, key, file_name)
+        
+        # 画像生成と保存のパイプライン
+        pipe_generate(second_prompt, "serious", file_name)
+        pipe_generate(second_prompt, "grinning", file_name)
+        pipe_generate(second_prompt, "winking", file_name)
+        pipe_generate(second_prompt, "laughing", file_name)
+        pipe_generate(second_prompt, "smiling", file_name)
 
 if __name__ == "__main__":
     st.title("💛DIALS2 - キャストイラスト生成💛")
