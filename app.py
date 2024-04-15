@@ -365,16 +365,9 @@ def main():
 
 if __name__ == "__main__":
     st.title("💛DIALS2 - キャストイラスト生成💛")
-    
-    
-    password = st.sidebar.text_input("PASSWORD", type="password")
-    if password == st.secrets["password"]:
-        # パスワードが正しい場合、OpenAI APIキーを入力させる
-        api_key = st.sidebar.text_input("API KEY", type="password")
-        if api_key:
-            openai.api_key = api_key
-            main()
-        else:
-            st.sidebar.error("APIキーを入力してください🙇‍♀️")
+    api_key = st.sidebar.text_input("API KEY", type="password")
+    if api_key:
+        openai.api_key = api_key
+        main()
     else:
-        st.sidebar.error("パスワードを入力してください🙇‍♀️")
+        st.sidebar.error("APIキーを入力してください🙇‍♀️")
