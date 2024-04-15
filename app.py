@@ -328,7 +328,6 @@ def get_image_data(image_url, key, file_name):
     )
 
 def main():
-    uploaded_file = st.file_uploader("音声ファイルをアップロードしてください", type=["mp3"])
     file = st.file_uploader("音声ファイルをアップロードしてください", type=["mp3"])
     if file:
         st.markdown(f'{file.name} をアップロードしました.')
